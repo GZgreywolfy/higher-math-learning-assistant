@@ -1,0 +1,21 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^http://localhost",
+      "comment": "忽略本地开发链接"
+    },
+    {
+      "pattern": "^#",
+      "comment": "忽略页面内锚点链接"
+    },
+    {
+      "pattern": "^.+\\.md(#.+)?$",
+      "comment": "忽略项目内 Markdown 文件链接"
+    }
+  ],
+  "aliveStatusCodes": [200, 206, 301, 302, 303, 307, 308],
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 2,
+  "fallbackRetryDelay": "30s"
+}

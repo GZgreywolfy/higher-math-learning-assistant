@@ -1,0 +1,6 @@
+- [ ] README.md 顶部已有 ⚠️ 提示框
+- [ ] README.md 已包含「前置依赖」章节
+- [ ] README.md 已包含「验证 Skill 是否生效」章节
+- [ ] CHANGELOG.md 已记录 v1.2.0 本次更新
+- [ ] Git 已成功提交并推送到 origin main
+- [ ] GitHub 仓库页面 README 内容正确显示
