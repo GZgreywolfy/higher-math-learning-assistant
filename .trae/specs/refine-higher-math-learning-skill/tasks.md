@@ -17,11 +17,11 @@
   - [x] 子任务 2.4: 新增 CONTRIBUTING.md
   - [x] 子任务 2.5: 新增 CHANGELOG.md
 
-- [ ] 任务 3: GitHub 提交与发布
-  - [ ] 子任务 3.1: 使用 Conventional Commits 提交所有变更
-  - [ ] 子任务 3.2: 创建 v1.0.0 Git Tag
-  - [ ] 子任务 3.3: 创建 GitHub Release v1.0.0
-  - [ ] 子任务 3.4: 推送到远程仓库 main 分支
+- [x] 任务 3: GitHub 提交与发布
+  - [x] 子任务 3.1: 使用 Conventional Commits 提交所有变更
+  - [x] 子任务 3.2: 创建 v1.0.0 Git Tag
+  - [x] 子任务 3.3: 创建 GitHub Release v1.0.0
+  - [x] 子任务 3.4: 推送到远程仓库 main 分支
 
 ## 任务依赖关系
 - [任务 2] 依赖 [任务 1]（文档需要与 SKILL.md 保持一致）

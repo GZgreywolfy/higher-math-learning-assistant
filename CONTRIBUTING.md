@@ -6,6 +6,10 @@
 
 如果你发现了 bug 或有功能建议，请先检查现有的 Issues 中是否已有相关讨论。如果没有，欢迎创建新的 Issue。
 
+### 提交院校-专业-高数级别映射数据
+
+具体指引请参考 [README.md](./README.md) 中的"如何贡献"章节。
+
 ## 提交 Pull Request
 
 1. Fork 本仓库
@@ -43,6 +47,9 @@
     ├── spec.md
     ├── tasks.md
     └── checklist.md
+
+references/                          # 参考文件（示例对话等）
+tests/                               # 测试用例
 ```
 
 ## 许可
