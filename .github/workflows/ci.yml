@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SKILL.md frontmatter
+        run: |
+          if grep -q "^name:" ".trae/skills/higher-math-learning-assistant/SKILL.md" && \
+             grep -q "^description:" ".trae/skills/higher-math-learning-assistant/SKILL.md"; then
+            echo "✅ SKILL.md frontmatter is valid"
+          else
+            echo "❌ SKILL.md frontmatter is missing name or description"
+            exit 1
+          fi
+
+      - name: Validate JSON files
+        run: |
+          for file in \
+            ".trae/skills/higher-math-learning-assistant/resources/institutions.json" \
+            ".trae/skills/higher-math-learning-assistant/resources/major-mapping.json"; do
+            if [ -f "$file" ]; then
+              python3 -c "import json; json.load(open('$file'))" && echo "✅ $file is valid JSON" || { echo "❌ $file is invalid JSON"; exit 1; }
+            else
+              echo "⚠️ $file not found, skipping"
+            fi
+          done
+
+      - name: Check documentation links (Markdown)
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/workflows/mlc_config.json'
+          folder-path: '.trae/skills/higher-math-learning-assistant/, references/, tests/'
