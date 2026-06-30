@@ -1,6 +1,21 @@
 ---
 name: "higher-math-learning-assistant"
 description: "Helps incoming college freshmen create personalized Higher Mathematics (高等数学) study plans. Invoke when user mentions 高等数学, college math preparation, or asks for study planning before/during university."
+triggers:
+  - "帮我学高数"
+  - "高等数学怎么学"
+  - "大一高数预习计划"
+  - "我是 XX 大学 XX 专业，高数怎么学"
+workflow:
+  - "收集信息"
+  - "院校难度分级"
+  - "专业难度判断"
+  - "量化打分"
+  - "试卷检索"
+  - "学习资源推荐"
+  - "综合输出"
+  - "反馈闭环"
+  - "学习效果评估"
 ---
 
 # 高等数学学习助手

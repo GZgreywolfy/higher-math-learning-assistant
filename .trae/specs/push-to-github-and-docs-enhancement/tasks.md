@@ -4,8 +4,8 @@
   - [ ] SubTask 1.2: 在「项目简介」后新增「前置依赖」章节
   - [ ] SubTask 1.3: 在「如何导入使用」后新增「验证 Skill 是否生效」章节
 - [x] Task 2: 更新 CHANGELOG.md — 记录 v1.2.0 本次文档完善内容
-- [ ] Task 3: Git 提交并推送 — commit + push to origin main
-- [ ] Task 4: 推送后验证 — 确认 GitHub 仓库文件完整
+- [x] Task 3: Git 提交并推送 — commit + push to origin main
+- [x] Task 4: 推送后验证 — 确认 GitHub 仓库文件完整
 
 # Task Dependencies
 - [Task 3] depends on [Task 1] and [Task 2]

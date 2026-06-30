@@ -1,6 +1,6 @@
 # 高等数学学习助手 Skill
 
-![Version](https://img.shields.io/badge/version-v1.1.0-blue)
+![Version](https://img.shields.io/badge/version-v1.2.0-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -42,18 +42,32 @@
 ├── 📄 .gitignore                         # Git 忽略规则
 ├── 📄 CONTRIBUTING.md                    # 贡献指南
 ├── 📄 CHANGELOG.md                       # 版本变更记录
+├── 📂 .github/
+│   └── 📂 workflows/
+│       ├── 📄 ci.yml                    # 基础 CI 工作流
+│       ├── 📄 validate-skill.yml        # Skill 专项验证工作流
+│       └── 📄 mlc_config.json           # 链接检查配置
 ├── 📂 references/                        # 参考文件
-│   └── 📄 examples.md                   # Few-Shot 示例对话
+│   ├── 📄 examples.md                   # Few-Shot 示例对话
+│   └── 📄 scoring-model.md              # 量化评分模型说明
 ├── 📂 tests/                             # 测试用例
 │   └── 📄 test-cases.md                 # 典型场景测试
 └── 📂 .trae/
     ├── 📂 skills/
     │   └── 📂 higher-math-learning-assistant/
-    │       └── 📄 SKILL.md              # Skill 核心定义文件
+    │       ├── 📄 SKILL.md              # Skill 核心定义文件
+    │       ├── 📄 TEST.md               # 手动测试文档
+    │       └── 📂 resources/
+    │           ├── 📄 institutions.json  # 院校映射数据
+    │           └── 📄 major-mapping.json # 专业映射数据
     └── 📂 specs/
         ├── 📂 create-higher-math-learning-skill/
         ├── 📂 refine-higher-math-learning-skill/
-        └── 📂 enhance-skill-v1.1.0/     # v1.1.0 增强规格文档
+        ├── 📂 v1.2.0-core-enhancement/
+        ├── 📂 v1.2.1-docs-and-ci-enhancement/
+        ├── 📂 push-to-github-and-docs-enhancement/
+        └── 📂 archive/                   # 历史规格存档
+            └── 📂 enhance-skill-v1.1.0/
 ```
 
 ---
@@ -123,6 +137,20 @@ AI：好的。让我先分析你的情况——
 
 ---
 
+## 实际运行演示
+
+> 以下为高等数学学习助手在 Trae IDE 中的实际运行截图/录屏，展示完整的交互流程。
+
+![运行演示截图](images/demo-screenshot.png)
+*图：Skill 激活后的初始对话界面 — 用户输入"帮我学高数"后，AI 开始采集信息*
+
+![输出方案截图](images/demo-plan-output.png)
+*图：个性化学习方案输出示例 — 综合院校分析、专业判断、难度评分与阶段计划*
+
+> ⏳ GIF 录屏与更多截图正在制作中，欢迎贡献！
+
+---
+
 ## 功能模块说明
 
 | 模块 | 功能描述 |
@@ -167,7 +195,8 @@ AI：好的。让我先分析你的情况——
 
 以下是本项目的后续规划：
 
-- [ ] **v1.2.0** — 扩充院校库：覆盖更多双一流、普通本科、专科院校的默认映射数据
+- [x] **v1.2.0** — 扩充院校库：覆盖更多双一流、普通本科、专科院校的默认映射数据（已完成）
+- [x] **v1.2.1** — 文档完善与自动化验证：新增 validate-skill.yml 工作流、FAQ 章节、评分模型文档、测试用例扩充
 - [ ] **v1.3.0** — 自适应学习算法：根据学生反馈的学习进度数据，自动优化后续阶段分配
 - [ ] **v2.0.0** — 移动端适配：提供微信小程序或 H5 版本的交互入口
 - [ ] **长期规划** — 社区共建：开放院校-专业-高数级别映射数据的 PR 审核机制，建立社区贡献者名单
@@ -177,6 +206,41 @@ AI：好的。让我先分析你的情况——
 ## 免责声明
 
 本项目提供的所有试卷分析、难度评估和学习建议均**基于网络检索结果与通用规则**，**仅供学习参考**，不保证与实际情况完全一致。具体考试范围、题型和难度请以开学后授课教师公布为准。
+
+---
+
+## 常见问题 (FAQ)
+
+### Q: Skill 没有自动激活怎么办？
+
+如果输入触发词后 AI 没有按 SKILL.md 定义的工作流程响应，可能的原因及解决方法：
+
+1. **检查项目是否正确加载**：确认 Trae IDE 中打开的项目目录是本仓库的根目录，包含 `.trae/skills/` 目录结构
+2. **检查 Skill 是否安装**：在 Trae IDE 的 Skill 管理面板中确认 `higher-math-learning-assistant` 已启用
+3. **手动触发**：尝试重启 Trae IDE 或在新的对话中重新输入触发词（"帮我学高数"、"高等数学怎么学"、"大一高数预习计划"）
+4. **权限问题**：确保 AI 模型具备调用 WebSearch 工具的权限
+5. **如果仍然无效**：请在 GitHub Issues 中提交问题，附带你的 Trae IDE 版本信息
+
+### Q: AI 不支持 WebSearch 怎么办？
+
+WebSearch 是本 Skill 检索院校培养方案和期末试卷的重要依赖。如果 AI 模型不支持 WebSearch：
+
+1. **使用支持 WebSearch 的模型**：建议切换到支持联网搜索功能的 AI 模型（如 Claude、GPT-4 等集成了搜索能力的版本）
+2. **降级运行**：即使没有 WebSearch，Skill 仍可基于内置院校-专业知识库（`institutions.json` 和 `major-mapping.json`）进行院校分级和专业判断，但将无法：
+   - 检索目标院校的实际培养方案来修正默认高数级别
+   - 检索期末试卷来分析题型分布
+   - 查证未知院校的层次档位
+3. **手动补充信息**：用户可自行查找院校培养方案信息，在对话中提供给 AI，AI 可以基于用户提供的信息进行分析
+4. **标注不可用**：所有因缺少 WebSearch 而未检索到的内容，AI 会在结论中标注"检索不可用"，输出基于默认值的估算结果
+
+### Q: 我的院校不在内置库中怎么办？
+
+内置院校库（`institutions.json`）目前覆盖了 55 所常见院校。如果你的院校不在其中：
+
+1. **WebSearch 自动查证**：Skill 会自动通过 WebSearch 检索你的院校层次信息，识别后使用对应档位和分值
+2. **默认降级**：如果 WebSearch 也无法查证，将采用 Tier 3（普通本科）作为默认档位，并在结论中标注"默认值（检索不可用）"
+3. **贡献数据**：欢迎在 GitHub Issues 中提交新的院校映射数据，格式为：`[映射数据] 院校名称 - 专业名称`，并附上院校层次的官方来源链接。我们核实后会更新到内置库中
+4. **临时处理**：你也可以自己在对话中说明院校层次（如"我是 XX 学院，一所普通本科"），AI 会采纳你的描述进行分析
 
 ---
 

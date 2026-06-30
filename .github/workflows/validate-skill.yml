@@ -1,0 +1,92 @@
+name: Validate SKILL.md Frontmatter
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-skill:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SKILL.md YAML frontmatter
+        shell: python3 {0}
+        run: |
+          import re
+          import sys
+          import yaml
+
+          skill_path = ".trae/skills/higher-math-learning-assistant/SKILL.md"
+
+          with open(skill_path, "r", encoding="utf-8") as f:
+              content = f.read()
+
+          # Extract YAML frontmatter between --- markers
+          match = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+          if not match:
+              print("❌ SKILL.md is missing YAML frontmatter (--- ... ---)")
+              sys.exit(1)
+
+          frontmatter_text = match.group(1)
+
+          # Parse YAML
+          try:
+              data = yaml.safe_load(frontmatter_text)
+          except yaml.YAMLError as e:
+              print(f"❌ YAML frontmatter parse error: {e}")
+              sys.exit(1)
+
+          if not isinstance(data, dict):
+              print("❌ YAML frontmatter is not a valid dictionary")
+              sys.exit(1)
+
+          # Check required fields
+          required_fields = ["name", "description", "triggers", "workflow"]
+          missing_fields = [f for f in required_fields if f not in data]
+          if missing_fields:
+              print(f"❌ Missing required frontmatter fields: {', '.join(missing_fields)}")
+              sys.exit(1)
+
+          print("✅ All required frontmatter fields present: name, description, triggers, workflow")
+
+          # Validate name field
+          name = data.get("name", "")
+          if not isinstance(name, str) or not name.strip():
+              print("❌ Frontmatter 'name' must be a non-empty string")
+              sys.exit(1)
+          print(f"✅ name: \"{name}\"")
+
+          # Validate description field
+          description = data.get("description", "")
+          if not isinstance(description, str) or not description.strip():
+              print("❌ Frontmatter 'description' must be a non-empty string")
+              sys.exit(1)
+          print(f"✅ description: \"{description[:60]}...\"")
+
+          # Validate triggers field
+          triggers = data.get("triggers", [])
+          if not isinstance(triggers, list) or len(triggers) == 0:
+              print("❌ Frontmatter 'triggers' must be a non-empty list")
+              sys.exit(1)
+
+          # Check for required trigger keywords
+          required_keywords = ["帮我学高数", "高等数学怎么学", "大一高数预习计划"]
+          missing_keywords = [kw for kw in required_keywords if kw not in triggers]
+          if missing_keywords:
+              print(f"❌ triggers is missing the following required keywords: {', '.join(missing_keywords)}")
+              sys.exit(1)
+          print(f"✅ triggers contains all required keywords: {', '.join(required_keywords)}")
+          print(f"✅ triggers ({len(triggers)} items): {triggers}")
+
+          # Validate workflow field
+          workflow = data.get("workflow")
+          if not isinstance(workflow, list) or len(workflow) == 0:
+              print("❌ Frontmatter 'workflow' must be a non-empty list")
+              sys.exit(1)
+          print(f"✅ workflow contains {len(workflow)} step(s)")
+
+          print("\n🎉 All SKILL.md frontmatter validations passed!")
